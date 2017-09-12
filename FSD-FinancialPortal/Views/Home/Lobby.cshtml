@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Lobby";
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+}
+
+<!-- Main Container -->
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <div class="page-content">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>
+                        <a href="@Url.Action("Index","Home")">Home</a>
+                    </li>
+                    <li class="active">Lobby</li>
+                </ul>
+            </div>
+            <div class="page-header position-relative">
+                <div class="header-title">
+                    <h1>
+                        Index
+                    </h1>
+                </div>
+                <!--Header Buttons-->
+                <div class="header-buttons">
+                    <a class="sidebar-toggler" href="#">
+                        <i class="fa fa-arrows-h"></i>
+                    </a>
+                    <a class="refresh" id="refresh-toggler" href="">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                    </a>
+                    <a class="fullscreen" id="fullscreen-toggler" href="#">
+                        <i class="glyphicon glyphicon-fullscreen"></i>
+                    </a>
+                </div>
+                <!--Header Buttons End-->
+            </div>
+            <!-- Page Body -->
+            <div class="page-body">
+                <h2>Lobby</h2>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.post("@Url.Action("GetDashboardChartData", "Home")").then(function (response) {
+                //console.log(response)
+                new Morris.Bar({
+                    element: 'chart',
+                    data: response,
+                    xkey: 'Name',
+                    ykeys: ['Count'],
+                    labels: ['Count']
+                });
+            })
+
+            $.post("@Url.Action("GetBudgetChartData", "Home")").then(function (response) {
+                //console.log(response)
+                new Morris.Bar({
+                    element: 'budgetCharts',
+                    data: response,
+                    xkey: 'Name',
+                    ykeys: ['TargetAmt', 'ActualAmt'],
+                    labels: ['Target', 'Actual']
+                });
+            })
+
+            $.post("@Url.Action("GetBudgetItemChartData", "Home")").then(function (response) {
+                //console.log(response)
+                new Morris.Bar({
+                    element: 'budgetItemCharts',
+                    data: response,
+                    xkey: 'Name',
+                    ykeys: ['TargetAmt', 'ActualAmt'],
+                    labels: ['Target', 'Actual']
+                });
+            })
+        })
+    </script>
+
+}
