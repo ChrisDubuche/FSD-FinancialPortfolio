@@ -11,6 +11,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using FSD_FinancialPortal.Models;
+using System.Security.Principal;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace FSD_FinancialPortal
 {
@@ -40,7 +43,7 @@ namespace FSD_FinancialPortal
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -81,7 +84,7 @@ namespace FSD_FinancialPortal
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
@@ -106,4 +109,55 @@ namespace FSD_FinancialPortal
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
+
+    public static class Extensions
+    {
+        public static string GetHouseholdId(this IIdentity user)
+        {
+            var claimsIdentity = (ClaimsIdentity)user;
+            var HouseholdClaim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == "HouseholdId");
+
+            if (HouseholdClaim != null)
+                return HouseholdClaim.Value;
+            else
+                return null;
+        }
+
+        public static bool IsInHousehold(this IIdentity user)
+        {
+            var cUser = (ClaimsIdentity)user;
+            var hid = cUser.Claims.FirstOrDefault(c => c.Type == "HouseholdId");
+            return (hid != null && !string.IsNullOrWhiteSpace(hid.Value));
+        }
+    }
+
+    public class AuthorizeHouseholdRequired : AuthorizeAttribute
+    {
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            var isAuthorized = base.AuthorizeCore(httpContext); if (!isAuthorized)
+            {
+                return false;
+            }
+            return httpContext.User.Identity.IsInHousehold();
+        }
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                base.HandleUnauthorizedRequest(filterContext);
+            }
+
+            else
+            {
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
+                {
+                    controller = "Home",
+                    action = "CreateJoinHousehold"
+                }
+                ));
+            }
+        }
+    }
 }
+

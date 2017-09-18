@@ -6,6 +6,8 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace FSD_FinancialPortal.Models
 {
@@ -14,7 +16,6 @@ namespace FSD_FinancialPortal.Models
     {
         public virtual Household Household { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
-
         public int? HouseholdId { get; set; }
 
         [Display(Name = "First Name:")]
@@ -32,11 +33,16 @@ namespace FSD_FinancialPortal.Models
             }
         }
 
+        //public async Task RefreshAuthentication(this HttpContextBase context, ApplicationUser user)
+        //{
+        //        context.GetOwinContext().Authentication.SignOut();
+        //       await context.GetOwinContext().Get<ApplicationSignInManager>().SignInAsync(user, isPersistent: false, rememberBrowser: false);
+        //}
+
         public ApplicationUser()
         {
             this.Notifications = new HashSet<Notification>();
         }
-
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -77,5 +83,4 @@ namespace FSD_FinancialPortal.Models
 
         public virtual DbSet<TransactionType> TransactionTypes { get; set; }
     }
-
 }

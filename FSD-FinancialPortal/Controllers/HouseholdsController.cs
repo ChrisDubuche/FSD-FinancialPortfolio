@@ -3,6 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using FSD_FinancialPortal.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace FSD_FinancialPortal.Controllers
 {
@@ -119,5 +121,13 @@ namespace FSD_FinancialPortal.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //[AuthorizeHouseholdRequired]
+        //public async Task<ActionResult> LeaveHousehold()
+        //{
+        //    var userid = User.Identity.GetUserId();
+        //    await ControllerContext.HttpContext.RefreshAuthentication(user);
+        //    return RedirectToAction("Household");
+        //}
     }
 }

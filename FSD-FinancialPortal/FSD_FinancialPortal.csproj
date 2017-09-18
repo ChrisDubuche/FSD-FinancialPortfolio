@@ -761,7 +761,9 @@
     <Content Include="Views\Notifications\Edit.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\Home\Lobby.cshtml" />
-    <Content Include="Views\Home\TempIndex.cshtml" />
+    <Content Include="Views\Home\Landing.cshtml" />
+    <Content Include="Views\Account\ResendEmailConfirmation.cshtml" />
+    <Content Include="Views\Account\ConfirmationSent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
