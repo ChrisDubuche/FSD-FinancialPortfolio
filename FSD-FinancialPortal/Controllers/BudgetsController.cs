@@ -44,7 +44,7 @@ namespace FSD_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,TargetAmount,WarningLevel,Created,HouseholdId")] Budget budget)
+        public ActionResult Create([Bind(Include = "Name,Description,TargetAmount,WarningLevel,Created,HouseholdId")] Budget budget)
         {
             if (ModelState.IsValid)
             {

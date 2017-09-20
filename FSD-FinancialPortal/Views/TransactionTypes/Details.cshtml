@@ -4,31 +4,65 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@Url.Action("Index","Home")">Home</a>
+            </li>
+            <li class="active">Index</li>
+        </ul>
+    </div>
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>
+                Details
+            </h1>
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- Page Body -->
+    <div class="page-body">
 
-<div>
-    <h4>TransactionType</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
+        <div>
+            <h4>TransactionType</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Type)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Type)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Type)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-    </dl>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

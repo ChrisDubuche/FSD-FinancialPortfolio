@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +50,12 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -241,11 +248,27 @@
     <Content Include="assets\css\bootstrap.css" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\dataTables.bootstrap.css" />
+    <Content Include="assets\css\dataTables.bootstrap.min.css" />
     <Content Include="assets\css\dataTables.bootstrap.rtl.css" />
+    <Content Include="assets\css\dataTables.bootstrap4.css" />
+    <Content Include="assets\css\dataTables.bootstrap4.min.css" />
+    <Content Include="assets\css\dataTables.foundation.css" />
+    <Content Include="assets\css\dataTables.foundation.min.css" />
+    <Content Include="assets\css\dataTables.jqueryui.css" />
+    <Content Include="assets\css\dataTables.jqueryui.min.css" />
+    <Content Include="assets\css\dataTables.material.css" />
+    <Content Include="assets\css\dataTables.material.min.css" />
+    <Content Include="assets\css\dataTables.semanticui.css" />
+    <Content Include="assets\css\dataTables.semanticui.min.css" />
+    <Content Include="assets\css\dataTables.uikit.css" />
+    <Content Include="assets\css\dataTables.uikit.min.css" />
     <Content Include="assets\css\demo.css" />
     <Content Include="assets\css\demo.min.css" />
     <Content Include="assets\css\font-awesome.css" />
     <Content Include="assets\css\font-awesome.min.css" />
+    <Content Include="assets\css\jquery.dataTables.css" />
+    <Content Include="assets\css\jquery.dataTables.min.css" />
+    <Content Include="assets\css\jquery.dataTables_themeroller.css" />
     <Content Include="assets\css\other-less\LessHat.css" />
     <Content Include="assets\css\other-less\lesshat.min.css" />
     <Content Include="assets\css\skins\azure.css" />
@@ -418,6 +441,7 @@
     <Content Include="assets\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -676,9 +700,26 @@
     <None Include="Properties\PublishProfiles\cdubuche-FinancialPortal - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\cdubuche-FinancialPortal - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\dataTables.bootstrap.js" />
+    <Content Include="Scripts\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\dataTables.bootstrap4.js" />
+    <Content Include="Scripts\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\dataTables.foundation.js" />
+    <Content Include="Scripts\dataTables.foundation.min.js" />
+    <Content Include="Scripts\dataTables.jqueryui.js" />
+    <Content Include="Scripts\dataTables.jqueryui.min.js" />
+    <Content Include="Scripts\dataTables.material.js" />
+    <Content Include="Scripts\dataTables.material.min.js" />
+    <Content Include="Scripts\dataTables.semanticui.js" />
+    <Content Include="Scripts\dataTables.semanticui.min.js" />
+    <Content Include="Scripts\dataTables.uikit.js" />
+    <Content Include="Scripts\dataTables.uikit.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.dataTables.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

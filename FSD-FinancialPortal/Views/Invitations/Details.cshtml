@@ -4,79 +4,113 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@Url.Action("Index","Home")">Home</a>
+            </li>
+            <li class="active">Index</li>
+        </ul>
+    </div>
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>
+                Details
+            </h1>
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- Page Body -->
+    <div class="page-body">
 
-<div>
-    <h4>Invitation</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Household.Name)
-        </dt>
+        <div>
+            <h4>Invitation</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Household.Name)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Household.Name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Household.Name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.CreatedDate)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Code)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Code)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Code)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Code)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Expired)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Expired)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Expired)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Expired)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ExpirationDate)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ExpirationDate)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ExpirationDate)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.ExpirationDate)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Accepted)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Accepted)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Accepted)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Accepted)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AcceptedDate)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AcceptedDate)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.AcceptedDate)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.AcceptedDate)
+                </dd>
 
-    </dl>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

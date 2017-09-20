@@ -4,55 +4,89 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@Url.Action("Index","Home")">Home</a>
+            </li>
+            <li class="active">Index</li>
+        </ul>
+    </div>
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>
+                Details
+            </h1>
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- Page Body -->
+    <div class="page-body">
 
-<div>
-    <h4>BudgetItem</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Budget.Name)
-        </dt>
+        <div>
+            <h4>BudgetItem</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Budget.Name)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Budget.Name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Budget.Name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.HouseholdId)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.HouseholdId)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.HouseholdId)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.HouseholdId)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsExpense)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsExpense)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsExpense)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.IsExpense)
+                </dd>
 
-    </dl>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

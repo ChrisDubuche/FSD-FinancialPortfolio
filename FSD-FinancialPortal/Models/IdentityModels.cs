@@ -6,8 +6,6 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace FSD_FinancialPortal.Models
 {
@@ -32,12 +30,6 @@ namespace FSD_FinancialPortal.Models
                 return FirstName + ' ' + LastName;
             }
         }
-
-        //public async Task RefreshAuthentication(this HttpContextBase context, ApplicationUser user)
-        //{
-        //        context.GetOwinContext().Authentication.SignOut();
-        //       await context.GetOwinContext().Get<ApplicationSignInManager>().SignInAsync(user, isPersistent: false, rememberBrowser: false);
-        //}
 
         public ApplicationUser()
         {

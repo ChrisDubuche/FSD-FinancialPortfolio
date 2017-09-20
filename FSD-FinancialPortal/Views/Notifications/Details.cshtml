@@ -4,63 +4,97 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="page-content">
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="@Url.Action("Index","Home")">Home</a>
+            </li>
+            <li class="active">Index</li>
+        </ul>
+    </div>
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>
+                Details
+            </h1>
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- Page Body -->
+    <div class="page-body">
 
-<div>
-    <h4>Notification</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Recipient.FirstName)
-        </dt>
+        <div>
+            <h4>Notification</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Recipient.FirstName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Recipient.FirstName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Recipient.FirstName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Sender.FirstName)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Sender.FirstName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Sender.FirstName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Sender.FirstName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Created)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Created)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Subject)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Subject)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Body)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Body)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Body)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Body)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Acknowledged)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Acknowledged)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Acknowledged)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Acknowledged)
+                </dd>
 
-    </dl>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
