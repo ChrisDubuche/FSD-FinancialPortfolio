@@ -67,7 +67,7 @@
                             <li>
                                 <a class="login-area dropdown-toggle" data-toggle="dropdown">
                                     <div class="avatar" title="View your public profile">
-                                        <img src="~/assets/img/avatars/adam-jansen.jpg">
+                                        <img src="~/assets/img/avatars/Christian.png">
                                     </div>
                                     <section>
                                         <h2><span class="profile"><span>David Stevenson</span></span></h2>
@@ -137,6 +137,19 @@
                     <li>
                         <a href="#" class="menu-dropdown">
                             <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="menu-text"> Households </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                @Html.ActionLink("All Households", "Index", "Households")
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
                             <span class="menu-text"> Budgets </span>
                             <i class="menu-expand"></i>
                         </a>
@@ -146,6 +159,85 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="menu-text"> Budget Items </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                @Html.ActionLink("Budget Items", "Index", "BudgetItems")
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="menu-text"> Bank Accounts </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                @Html.ActionLink("Bank Accounts", "Index", "BankAccounts")
+                            </li>
+                        </ul>
+                    </li>                    
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="menu-text"> Invitations </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                @Html.ActionLink("All Invitations", "Index", "Invitations")
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="menu-text"> Notifications </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                @Html.ActionLink("All Notifications", "Index", "Notifications")
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="menu-text"> Transactions </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                @Html.ActionLink("All Transactions", "Index", "Transactions")
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-pencil-square-o"></i>
+                            <span class="menu-text"> Transaction Types </span>
+                            <i class="menu-expand"></i>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                @Html.ActionLink("Transaction Types", "Index", "TransactionTypes")
+                            </li>
+                        </ul>
+                    </li>
+
                 </ul>
                 <!-- /Sidebar Menu -->
             </div>
@@ -223,7 +315,7 @@
 
     <!--Beyond Scripts-->
     <script src="~/assets/js/beyond.min.js"></script>
-
+    <script src="~/assets/js/fuelux/wizard/wizard-custom.min.js"></script>
     @RenderSection("scripts", required: false)
 
     @*<script>

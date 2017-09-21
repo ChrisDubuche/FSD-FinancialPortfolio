@@ -209,8 +209,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\BankAccountHelper.cs" />
+    <Compile Include="Helpers\BudgetHelper.cs" />
     <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\ImageUploadValidator.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Helpers\NotificationHelper.cs" />
+    <Compile Include="Helpers\RoleHelper.cs" />
+    <Compile Include="Helpers\TimeHelper.cs" />
     <Compile Include="Helpers\Utilities.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -314,6 +320,7 @@
     <Content Include="assets\img\attach-yellow.png" />
     <Content Include="assets\img\avatars\adam-jansen.jpg" />
     <Content Include="assets\img\avatars\bing.png" />
+    <Content Include="assets\img\avatars\Christian.png" />
     <Content Include="assets\img\avatars\divyia.jpg" />
     <Content Include="assets\img\avatars\Javi-Jimenez.jpg" />
     <Content Include="assets\img\avatars\John-Smith.jpg" />
