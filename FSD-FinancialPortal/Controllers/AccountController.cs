@@ -6,12 +6,16 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FSD_FinancialPortal.Models;
+using FSD_FinancialPortal.Helpers;
+using System.IO;
+using System;
 
 namespace FSD_FinancialPortal.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -134,8 +138,9 @@ namespace FSD_FinancialPortal.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string email)
         {
+            ViewBag.email = email;
             return View();
         }
 
@@ -144,11 +149,53 @@ namespace FSD_FinancialPortal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase profilePic, string Email)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+
+                if (db.Invitations.Any(i => i.Email == model.Email && i.Accepted))
+                {
+                    user.HouseholdId = db.Invitations.FirstOrDefault(i => i.Email == model.Email && i.Accepted).HouseholdId;
+                    db.Invitations.Remove(db.Invitations.FirstOrDefault(i => i.Email == model.Email && i.Accepted));
+                    db.SaveChanges();
+                }
+
+                //adding the profile pic
+                if (ImageUploadValidator.IsWebFriendlyImage(profilePic))
+                {
+                    var notStored = true;
+                    try
+                    {
+                        foreach (var img in Directory.GetFiles(Path.Combine(Server.MapPath("~/Uploads/"))))
+                        {
+                            var justImg = Path.GetFileName(img);
+                            if (Path.GetFileName(profilePic.FileName) == justImg)
+                            {
+                                model.ProfilePic = "/Uploads/" + Path.GetFileName(profilePic.FileName);
+                                user.profilePic = model.ProfilePic;
+                                notStored = false;
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        return RedirectToAction("login");
+                    }
+
+                    if (notStored)
+                    {
+                        var fileName = Path.GetFileName(profilePic.FileName);
+                        string completeName = DateTime.Now.ToString("hh.mm.ss.ffffff") + "_" + fileName;
+                        profilePic.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), completeName));
+                        model.ProfilePic = "/Uploads/" + completeName;
+                        user.profilePic = model.ProfilePic;
+                    }
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -156,11 +203,16 @@ namespace FSD_FinancialPortal.Controllers
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new
-                    { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account",
-                        "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new
+                    //{ userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account",
+                    //    "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    if (user.HouseholdId != null)
+                    {
+                        NotificationHelper.JoinedHouseholdNewUser(user.HouseholdId, user.Id);
+                        return RedirectToAction("details", "Households", new { id = user.HouseholdId });
+                    }
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -212,8 +264,18 @@ namespace FSD_FinancialPortal.Controllers
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                var message = new EmailMessage()
+                {
+                    Subject = "Reset Password",
+                    Body = "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>",
+                    SourceName = "Budgeter",
+                    DestinationEmail = user.Email
+                };
+                
+                var emailHelper = new EmailHelper();
+                await EmailHelper.SendInvite(message);
+                TempData["notify"] = "emailSent";
+                return RedirectToAction("Login", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -256,7 +318,8 @@ namespace FSD_FinancialPortal.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                TempData["notify"] = "resetConfirm";
+                return RedirectToAction("Login", "Account");
             }
             AddErrors(result);
             return View();
@@ -390,8 +453,9 @@ namespace FSD_FinancialPortal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+            Session.Abandon();
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account"); ;
         }
 
         //

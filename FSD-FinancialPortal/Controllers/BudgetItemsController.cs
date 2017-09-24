@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using FSD_FinancialPortal.Models;
+using System.Collections.Generic;
 
 namespace FSD_FinancialPortal.Controllers
 {
@@ -13,7 +14,7 @@ namespace FSD_FinancialPortal.Controllers
         // GET: BudgetItems
         public ActionResult Index()
         {
-            var budgetItems = db.BudgetItems.Include(b => b.Budget);
+            var budgetItems = db.BudgetItems.Include(b => b.Budget).Include(b => b.Household);
             return View(budgetItems.ToList());
         }
 
@@ -36,6 +37,7 @@ namespace FSD_FinancialPortal.Controllers
         public ActionResult Create()
         {
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name");
+            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
             return View();
         }
 
@@ -44,7 +46,7 @@ namespace FSD_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,HouseholdId,BudgetId,IsExpense")] BudgetItem budgetItem)
+        public ActionResult Create([Bind(Include = "Id,Name,HouseholdId,BudgetId,IsExpense")] BudgetItem budgetItem)
         {
             if (ModelState.IsValid)
             {
@@ -54,6 +56,7 @@ namespace FSD_FinancialPortal.Controllers
             }
 
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
+            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budgetItem.HouseholdId);
             return View(budgetItem);
         }
 
@@ -70,6 +73,7 @@ namespace FSD_FinancialPortal.Controllers
                 return HttpNotFound();
             }
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
+            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budgetItem.HouseholdId);
             return View(budgetItem);
         }
 
@@ -87,6 +91,7 @@ namespace FSD_FinancialPortal.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
+            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budgetItem.HouseholdId);
             return View(budgetItem);
         }
 
@@ -108,12 +113,15 @@ namespace FSD_FinancialPortal.Controllers
         // POST: BudgetItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(List<int> Ids, string returnUrl)
         {
-            BudgetItem budgetItem = db.BudgetItems.Find(id);
-            db.BudgetItems.Remove(budgetItem);
+            foreach (var id in Ids)
+            {
+                BudgetItem budgetItem = db.BudgetItems.Find(id);
+                db.BudgetItems.Remove(budgetItem);
+            }
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect(returnUrl);
         }
 
         protected override void Dispose(bool disposing)

@@ -6,12 +6,16 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FSD_FinancialPortal.Models;
+using System;
+using System.IO;
+using FSD_FinancialPortal.Helpers;
 
 namespace FSD_FinancialPortal.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -241,6 +245,53 @@ namespace FSD_FinancialPortal.Controllers
             }
             AddErrors(result);
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeProfilePic(HttpPostedFileBase profilePic)
+        {
+            if (profilePic == null)
+            {
+                return RedirectToAction("index");
+            }
+
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            if (ImageUploadValidator.IsWebFriendlyImage(profilePic))
+            {
+
+                var notStored = true;
+                try
+                {
+
+                    foreach (var img in Directory.GetFiles(Path.Combine(Server.MapPath("~/Uploads/"))))
+                    {
+                        var justImg = Path.GetFileName(img);
+                        if (Path.GetFileName(profilePic.FileName) == justImg)
+                        {
+                            user.profilePic = "/Uploads/" + Path.GetFileName(profilePic.FileName);
+                            notStored = false;
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return RedirectToAction("login");
+                }
+
+                if (notStored)
+                {
+                    var fileName = Path.GetFileName(profilePic.FileName);
+                    string completeName = DateTime.Now.ToString("hh.mm.ss.ffffff") + "_" + fileName;
+                    profilePic.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), completeName));
+                    user.profilePic = "/Uploads/" + completeName;
+                }
+            }
+            db.SaveChanges();
+            return RedirectToAction("index");
         }
 
         //

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FSD_FinancialPortal.Models
 {
@@ -9,6 +10,7 @@ namespace FSD_FinancialPortal.Models
 
         public DateTime CreatedDate { get; set; }
 
+        [EmailAddress]
         public string Email { get; set; }
         public string Code { get; set; }
         public int HouseholdId { get; set; }

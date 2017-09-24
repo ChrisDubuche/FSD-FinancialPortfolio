@@ -3,14 +3,21 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using FSD_FinancialPortal.Models;
+using FSD_FinancialPortal.Helpers;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using System;
 
 namespace FSD_FinancialPortal.Controllers
 {
+    [Authorize]
     public class InvitationsController : Controller
     {
+        private EmailHelper emailHelper = new EmailHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Invitations
+        [Authorize(Roles = "Admin, Head")]
         public ActionResult Index()
         {
             var invitations = db.Invitations.Include(i => i.Household);
@@ -18,6 +25,7 @@ namespace FSD_FinancialPortal.Controllers
         }
 
         // GET: Invitations/Details/5
+        [Authorize(Roles = "Admin, Head")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -44,13 +52,32 @@ namespace FSD_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CreatedDate,Email,Code,HouseholdId,Expired,ExpirationDate,Accepted,AcceptedDate")] Invitation invitation)
+        public async Task<ActionResult> Create([Bind(Include = "Id,CreatedDate,Email,Code,HouseholdId,Expired,Accepted")] Invitation invitation)
         {
+            var userId = User.Identity.GetUserId();
+            var currentUser = db.Users.Find(userId);
+
             if (ModelState.IsValid)
             {
+                invitation.HouseholdId = (int)currentUser.HouseholdId;
+                invitation.CreatedDate = DateTime.Now;
+                invitation.ExpirationDate = invitation.CreatedDate.AddDays(7);
                 db.Invitations.Add(invitation);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                var callbackUrl = Url.Action("Join", "Invitations", new { id = invitation.Id }, protocol: Request.Url.Scheme);
+                var message = new EmailMessage()
+                {
+                    SourceName = "FSD Financial Portal",
+                    SourceId = userId,
+                    DestinationEmail = invitation.Email,
+                    Subject = String.Concat(currentUser.FullName, " has invited you to join ", db.Households.FirstOrDefault(i => i.Id == invitation.HouseholdId).Name),
+                    Body = String.Concat("Enter this code ", "<strong>", invitation.Code, "</strong> ", "<a href=\"" + callbackUrl + "\">here</a>")
+                };
+                await EmailHelper.SendInvite(message);
+                NotificationHelper.SendInviteEmail(invitation.Email, userId);
+
+                return RedirectToAction("Details", "HouseHolds", new { id = currentUser.HouseholdId });
             }
 
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", invitation.HouseholdId);
@@ -73,12 +100,13 @@ namespace FSD_FinancialPortal.Controllers
             return View(invitation);
         }
 
+        //TODO - Test sending and receiving invitations
         // POST: Invitations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CreatedDate,Email,Code,HouseholdId,Expired,ExpirationDate,Accepted,AcceptedDate")] Invitation invitation)
+        public ActionResult Edit([Bind(Include = "Id,CreatedDate,Email,Code,HouseholdId,Expired,Accepted")] Invitation invitation)
         {
             if (ModelState.IsValid)
             {

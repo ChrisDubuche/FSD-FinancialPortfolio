@@ -30,6 +30,7 @@ namespace FSD_FinancialPortal.Models
                 return FirstName + ' ' + LastName;
             }
         }
+        public string profilePic { get; set; }
 
         public ApplicationUser()
         {

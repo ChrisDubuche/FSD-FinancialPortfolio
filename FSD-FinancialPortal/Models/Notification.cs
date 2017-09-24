@@ -14,6 +14,8 @@ namespace FSD_FinancialPortal.Models
         public string RecipientId { get; set; }
 
         public bool Acknowledged { get; set; }
+        public int? Account { get; set; }
+        public decimal? Balance { get; set; }
 
         //Nav
         public virtual ApplicationUser Sender { get; set; }

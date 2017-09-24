@@ -3,17 +3,31 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using FSD_FinancialPortal.Models;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 namespace FSD_FinancialPortal.Controllers
 {
+    [Authorize]
     public class BudgetsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Budgets
-        public ActionResult Index()
+        public ActionResult Index(int householdId)
         {
-            var budgets = db.Budgets.Include(b => b.Household);
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+            if (user.HouseholdId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            if (user.HouseholdId != householdId)
+            {
+                return RedirectToAction("Details", "Home", new { id = user.HouseholdId });
+            }
+            ViewBag.household = db.Households.Find(householdId);
+            var budgets = db.Budgets.Include(b => b.Household).Include(b => b.BudgetItems).Where(b => b.HouseholdId == householdId);
             return View(budgets.ToList());
         }
 
@@ -44,17 +58,31 @@ namespace FSD_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,TargetAmount,WarningLevel,Created,HouseholdId")] Budget budget)
+        public ActionResult Create([Bind(Include = "Id,Name,TargetAmount,HouseholdId")] Budget budget, string budgetItems, string returnUrl)
         {
             if (ModelState.IsValid)
             {
+                if (budgetItems != null)
+                {
+                    var budgetItemList = budgetItems.Split(",".ToCharArray());
+
+                    foreach (var item in budgetItemList)
+                    {
+                        var BudgetItem = new BudgetItem()
+                        {
+                            Name = item,
+                            HouseholdId = budget.HouseholdId
+                        };
+                        budget.BudgetItems.Add(BudgetItem);
+                    }
+                }
+
                 db.Budgets.Add(budget);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect(returnUrl);
             }
 
-            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", budget.HouseholdId);
-            return View(budget);
+            return Redirect(returnUrl);
         }
 
         // GET: Budgets/Edit/5
@@ -78,7 +106,7 @@ namespace FSD_FinancialPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,TargetAmount,WarningLevel,Created,HouseholdId")] Budget budget)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,TargetAmount,HouseholdId")] Budget budget)
         {
             if (ModelState.IsValid)
             {
@@ -97,23 +125,32 @@ namespace FSD_FinancialPortal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Budget budget = db.Budgets.Find(id);
+            Budget budget = db.Budgets.Include(b => b.BudgetItems).FirstOrDefault(b => b.Id == id);
+            var budgetItemNames = db.BudgetItems.OrderBy(b => b.Id).Where(b => b.BudgetId == id).Select(b => b.Name).ToList();
+            var budgetItemIds = db.BudgetItems.OrderBy(b => b.Id).Where(b => b.BudgetId == id).Select(b => b.Id).ToList();
             if (budget == null)
             {
                 return HttpNotFound();
             }
-            return View(budget);
+            var result = new
+            {
+                name = budget.Name,
+                Id = budget.Id,
+                budgetItemNamesList = budgetItemNames,
+                budgetItemIdsList = budgetItemIds
+            };
+            return Content(JsonConvert.SerializeObject(result), "application/json");
         }
 
         // POST: Budgets/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, string returnUrl)
         {
             Budget budget = db.Budgets.Find(id);
             db.Budgets.Remove(budget);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect(returnUrl);
         }
 
         protected override void Dispose(bool disposing)
