@@ -46,23 +46,19 @@ namespace FSD_FinancialPortal
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            app.UseMicrosoftAccountAuthentication(
+                 clientId: "cc2211a9-8272-44ab-8c31-f64313489790",
+                 clientSecret: "2wBZfBPwa5SDj4rLPKZp3WE");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "1857356494291158",
+               appSecret: "f27c4e2b194c893d05ece394235c54d0");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "954845664170-ttrq1qel7pv9a2bp5pth2vd6ggibnhc1.apps.googleusercontent.com",
+                ClientSecret = "qMETCT3qY5CE5ckg5vHPV7_A"
+            });
         }
     }
 }

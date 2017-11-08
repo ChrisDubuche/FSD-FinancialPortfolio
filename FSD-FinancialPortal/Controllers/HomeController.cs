@@ -2,18 +2,32 @@
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Mvc;
+using FSD_FinancialPortal.Helpers;
 
 namespace FSD_FinancialPortal.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private RoleHelper roleHelper = new RoleHelper();
+
+        [Authorize]
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
             var user = db.Users.Find(userId);
+            if  (roleHelper.IsUserInRole(userId, "Guest"))
+            {
+                return View("Lobby");
+            }
+            else
+            {
             return View(user);
+            }    
+              
+
+
         }
 
         public ActionResult About()

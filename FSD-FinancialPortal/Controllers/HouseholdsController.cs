@@ -11,6 +11,7 @@ namespace FSD_FinancialPortal.Controllers
     public class HouseholdsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private RoleHelper roleHelper = new RoleHelper();
 
         // GET: Households
         public ActionResult Index()
@@ -62,7 +63,7 @@ namespace FSD_FinancialPortal.Controllers
                 var userId = User.Identity.GetUserId();
                 var CurrentUser = db.Users.Find(userId);
 
-                RoleHelper.AddUserToRole(userId, "Head");
+                roleHelper.AddUserToRole(userId, "Head");
                 household.Members.Add(CurrentUser);
 
                 db.Households.Add(household);

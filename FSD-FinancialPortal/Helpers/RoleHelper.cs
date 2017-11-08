@@ -1,37 +1,39 @@
 ﻿using FSD_FinancialPortal.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace FSD_FinancialPortal.Helpers
 {
     public class RoleHelper
     {
-        private static UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-        private static ApplicationDbContext db = new ApplicationDbContext();
+        private static UserManager<ApplicationUser> 
+            userManager = new UserManager<ApplicationUser>
+            (new UserStore<ApplicationUser>
+                (new ApplicationDbContext()));
 
-        public static bool IsUserInRole(string userId, string roleName)
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        public bool IsUserInRole(string userId, string roleName)
         {
             return userManager.IsInRole(userId, roleName);
         }
-        public static ICollection<string> ListUserRoles(string userId)
+        public ICollection<string> ListUserRoles(string userId)
         {
             return userManager.GetRoles(userId);
         }
-        public static bool AddUserToRole(string userId, string roleName)
+        public bool AddUserToRole(string userId, string roleName)
         {
             var result = userManager.AddToRole(userId, roleName);
             return result.Succeeded;
         }
-        public static bool RemoveUserFromRole(string userId, string roleName)
+        public bool RemoveUserFromRole(string userId, string roleName)
         {
             var result = userManager.RemoveFromRole(userId, roleName);
             return result.Succeeded;
         }
-        public static ICollection<ApplicationUser> UsersInRole(string roleName)
+        public ICollection<ApplicationUser> UsersInRole(string roleName)
         {
             var resultList = new List<ApplicationUser>();
             var List = userManager.Users.ToList();
@@ -43,7 +45,7 @@ namespace FSD_FinancialPortal.Helpers
 
             return resultList;
         }
-        public static ICollection<ApplicationUser> usersNotInRole(string roleName)
+        public ICollection<ApplicationUser> UsersNotInRole(string roleName)
         {
             var resultList = new List<ApplicationUser>();
             var List = userManager.Users.ToList();

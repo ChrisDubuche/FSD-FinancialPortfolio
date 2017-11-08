@@ -1,95 +1,112 @@
-﻿
-@{
-    ViewBag.Title = "Lobby";
-}
-
-@section styles
-{
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-}
-
-<!-- Main Container -->
-<div class="main-container container-fluid">
-    <div class="page-container">
-        <div class="page-content">
-            <!-- Page Breadcrumb -->
-            <div class="page-breadcrumbs">
-                <ul class="breadcrumb">
-                    <li>
-                        <i class="fa fa-home"></i>
-                        <a href="@Url.Action("Index","Home")">Home</a>
-                    </li>
-                    <li class="active">Lobby</li>
-                </ul>
-            </div>
-            <div class="page-header position-relative">
-                <div class="header-title">
-                    <h1>
-                        Index
-                    </h1>
+﻿            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="active">MVC</li>
+                    </ul>
                 </div>
-                <!--Header Buttons-->
-                <div class="header-buttons">
-                    <a class="sidebar-toggler" href="#">
-                        <i class="fa fa-arrows-h"></i>
-                    </a>
-                    <a class="refresh" id="refresh-toggler" href="">
-                        <i class="glyphicon glyphicon-refresh"></i>
-                    </a>
-                    <a class="fullscreen" id="fullscreen-toggler" href="#">
-                        <i class="glyphicon glyphicon-fullscreen"></i>
-                    </a>
+                <!-- /Page Breadcrumb -->
+                <!-- Page Header -->
+                <div class="page-header position-relative">
+                    <div class="header-title">
+                        <h1>
+                            Financial Portal
+                        </h1>
+                    </div>
+                    <!--Header Buttons-->
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                    </div>
+                    <!--Header Buttons End-->
                 </div>
-                <!--Header Buttons End-->
+                <!-- /Page Header -->
+                <!-- Page Body -->
+                <div class="page-body">
+                    <a name="mvc"></a>
+                    <h5 class="row-title before-themeprimary">Lobby</h5>                   
+                
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+
+
+                            @*<div class="widget flat radius-bordered">
+                                <div class="widget-header bg-themeprimary">
+                                    <span class="widget-caption">Household Budget Tool</span>
+                                    <div class="widget-buttons">
+                                        <a href="#" data-toggle="maximize">
+                                            <i class="fa fa-expand"></i>
+                                        </a>
+                                        <a href="#" data-toggle="collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                        <a href="#" data-toggle="dispose">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div id="simplewizardinwidget" class="wizard" data-target="#simplewizardinwidget-steps">
+                                        <ul class="steps">
+                                            <li data-target="#simplewizardinwidgetstep1" class="active"><span class="step">1</span>Step 1<span class="chevron"></span></li>
+                                            <li data-target="#simplewizardinwidgetstep2"><span class="step">2</span>Step 2<span class="chevron"></span></li>
+                                            <li data-target="#simplewizardinwidgetstep3"><span class="step">3</span>Step 3<span class="chevron"></span></li>
+                                            <li data-target="#simplewizardinwidgetstep4"><span class="step">4</span>Step 4<span class="chevron"></span></li>
+                                            <li data-target="#simplewizardinwidgetstep5"><span class="step">5</span>Step 5<span class="chevron"></span></li>
+                                            <li data-target="#simplewizardinwidgetstep6"><span class="step">6</span>Step 6<span class="chevron"></span></li>
+                                        </ul>
+                                        <div class="actions" id="simplewizardinwidget-actions">
+                                            <button type="button" class="btn btn-default btn-sm shiny btn-prev "> <i class="fa fa-angle-left"></i>Prev</button>
+                                            <button type="button" class="btn btn-default btn-sm shiny btn-next " data-last="Finish">Next<i class="fa fa-angle-right"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="step-content" id="simplewizardinwidget-steps">
+                                        <div class="step-pane active" id="simplewizardinwidgetstep1">Create Your Household
+                                        
+                                        
+                                        </div>
+                                        <div class="step-pane" id="simplewizardinwidgetstep2">Create Your Budget</div>
+                                        <div class="step-pane" id="simplewizardinwidgetstep3">Set Budget Limit</div>
+                                        <div class="step-pane" id="simplewizardinwidgetstep4">Add Budget Categories</div>
+                                        <div class="step-pane" id="simplewizardinwidgetstep5">Add Budget Items</div>
+                                        <div class="step-pane" id="simplewizardinwidgetstep6" data-toggle="modal" data-target="#modal-success">All Done!</div>
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>          
+                    @*<div id="modal-success" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <i class="glyphicon glyphicon-check"></i>
+                                </div>
+                                <div class="modal-title">Success</div>
+
+                                <div class="modal-body">You have done great!</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                                </div>
+                            </div> <!-- / .modal-content -->
+                        </div> <!-- / .modal-dialog -->
+                    </div>*@
+                </div>
+                <!-- /Page Body -->
             </div>
-            <!-- Page Body -->
-            <div class="page-body">
-                <h2>Lobby</h2>
+            <!-- /Page Content -->
 
-            </div>
-        </div>
-    </div>
-</div>
 
-@section scripts {
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $.post("@Url.Action("GetDashboardChartData", "Home")").then(function (response) {
-                //console.log(response)
-                new Morris.Bar({
-                    element: 'chart',
-                    data: response,
-                    xkey: 'Name',
-                    ykeys: ['Count'],
-                    labels: ['Count']
-                });
-            })
 
-            $.post("@Url.Action("GetBudgetChartData", "Home")").then(function (response) {
-                //console.log(response)
-                new Morris.Bar({
-                    element: 'budgetCharts',
-                    data: response,
-                    xkey: 'Name',
-                    ykeys: ['TargetAmt', 'ActualAmt'],
-                    labels: ['Target', 'Actual']
-                });
-            })
-
-            $.post("@Url.Action("GetBudgetItemChartData", "Home")").then(function (response) {
-                //console.log(response)
-                new Morris.Bar({
-                    element: 'budgetItemCharts',
-                    data: response,
-                    xkey: 'Name',
-                    ykeys: ['TargetAmt', 'ActualAmt'],
-                    labels: ['Target', 'Actual']
-                });
-            })
-        })
-    </script>
-
-}
+  

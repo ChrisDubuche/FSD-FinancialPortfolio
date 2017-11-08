@@ -8,18 +8,18 @@
     <div class="loginbox bg-white">
         <div class="loginbox-title">SIGN IN</div>
         <div class="loginbox-social">
-            <div class="social-title ">Connect with Your Social Accounts</div>
+            @*<div class="social-title ">Connect with Your Social Accounts</div>
             <div class="social-buttons">
                 <a href="" class="button-facebook">
                     <i class="social-icon fa fa-facebook"></i>
                 </a>
                 <a href="" class="button-twitter">
-                    <i class="social-icon fa fa-twitter"></i>
+                    <i class="social-icon fa fa-windows"></i>
                 </a>
                 <a href="" class="button-google">
                     <i class="social-icon fa fa-google-plus"></i>
                 </a>
-            </div>
+            </div>*@
         </div>
 
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -27,7 +27,7 @@
             @Html.AntiForgeryToken()
 
             <div class="loginbox-textbox">
-                <input type="text" name="Email" class="form-control" placeholder="Email" />
+                <input type="text" name="Email" class="form-control" placeholder="YourEmail@domain.com" />
             </div>
             <div class="loginbox-textbox">
                 <input type="password" name="Password" class="form-control" placeholder="P@s$w0rd!" />

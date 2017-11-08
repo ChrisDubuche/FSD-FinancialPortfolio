@@ -18,6 +18,7 @@ namespace FSD_FinancialPortal.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private RoleHelper roleHelper = new RoleHelper();
 
         public AccountController()
         {
@@ -162,40 +163,6 @@ namespace FSD_FinancialPortal.Controllers
                     db.SaveChanges();
                 }
 
-                //adding the profile pic
-                if (ImageUploadValidator.IsWebFriendlyImage(profilePic))
-                {
-                    var notStored = true;
-                    try
-                    {
-                        foreach (var img in Directory.GetFiles(Path.Combine(Server.MapPath("~/Uploads/"))))
-                        {
-                            var justImg = Path.GetFileName(img);
-                            if (Path.GetFileName(profilePic.FileName) == justImg)
-                            {
-                                model.ProfilePic = "/Uploads/" + Path.GetFileName(profilePic.FileName);
-                                user.profilePic = model.ProfilePic;
-                                notStored = false;
-                                break;
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                        return RedirectToAction("login");
-                    }
-
-                    if (notStored)
-                    {
-                        var fileName = Path.GetFileName(profilePic.FileName);
-                        string completeName = DateTime.Now.ToString("hh.mm.ss.ffffff") + "_" + fileName;
-                        profilePic.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), completeName));
-                        model.ProfilePic = "/Uploads/" + completeName;
-                        user.profilePic = model.ProfilePic;
-                    }
-                }
-
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -208,10 +175,11 @@ namespace FSD_FinancialPortal.Controllers
                     //{ userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account",
                     //    "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    if (user.HouseholdId != null)
+                    if (user.HouseholdId == null)
                     {
-                        NotificationHelper.JoinedHouseholdNewUser(user.HouseholdId, user.Id);
-                        return RedirectToAction("details", "Households", new { id = user.HouseholdId });
+                        //NotificationHelper.JoinedHouseholdNewUser(user.HouseholdId, user.Id);
+                        roleHelper.AddUserToRole(user.Id, "Guest");
+                        //return RedirectToAction("details", "Households", new { id = user.HouseholdId });
                     }
 
                     return RedirectToAction("Index", "Home");

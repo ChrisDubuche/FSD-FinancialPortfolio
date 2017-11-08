@@ -223,6 +223,7 @@
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\Budget.cs" />
     <Compile Include="Models\BudgetItem.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\Household.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Invitation.cs" />
